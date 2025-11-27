@@ -16,10 +16,9 @@ export async function POST(req: Request) {
     }
 
     const { data, error: resendError } = await resend.emails.send({
-      from:
-        process.env.RESEND_FROM_EMAIL ??
-        'Web Discomef <onboarding@resend.dev>', // 👈 asegurate de que en .env tengas algo así
-      to: 'info@discomef.com.ar', // mail donde querés recibir
+      from: `Web Discomef <${process.env.RESEND_FROM_EMAIL}>`, // ej: no-reply@discomef.com.ar
+      to: 'info@discomef.com.ar', // donde recibís los mensajes
+      replyTo: email,             // si respondés el mail, va al cliente
       subject: `Nuevo mensaje desde la web: ${asunto}`,
       text: `
 Formulario "ESCRÍBINOS"
@@ -43,7 +42,6 @@ ${mensaje}
       `,
     });
 
-    // ⚠️ si Resend falla, viene en resendError (no se lanza excepción)
     if (resendError) {
       console.error('Error de Resend:', resendError);
       return NextResponse.json(

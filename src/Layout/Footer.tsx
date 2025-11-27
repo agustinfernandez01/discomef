@@ -92,7 +92,8 @@ const Footer = ({
                     placeholder="NOMBRE"
                     value={formData.nombre}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 focus:border-[#2166b0] focus:outline-none transition-colors text-sm"
+                    className="w-full px-4 py-3 border border-gray-300 bg-white text-sm
+             placeholder:text-gray-400 focus:border-[#2166b0] focus:outline-none transition-colors"
                     required
                   />
                   <input
@@ -101,7 +102,8 @@ const Footer = ({
                     placeholder="APELLIDO"
                     value={formData.apellido}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 focus:border-[#2166b0] focus:outline-none transition-colors text-sm"
+                    className="w-full px-4 py-3 border border-gray-300 bg-white text-sm
+             placeholder:text-gray-400 focus:border-[#2166b0] focus:outline-none transition-colors"
                     required
                   />
                 </div>
@@ -112,7 +114,8 @@ const Footer = ({
                   placeholder="EMAIL"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 focus:border-[#2166b0] focus:outline-none transition-colors text-sm"
+                  className="w-full px-4 py-3 border border-gray-300 bg-white text-sm
+             placeholder:text-gray-400 focus:border-[#2166b0] focus:outline-none transition-colors"
                   required
                 />
 
@@ -122,7 +125,8 @@ const Footer = ({
                   placeholder="TELÉFONO (opcional)"
                   value={formData.telefono}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 focus:border-[#2166b0] focus:outline-none transition-colors text-sm"
+                  className="w-full px-4 py-3 border border-gray-300 bg-white text-sm
+             placeholder:text-gray-400 focus:border-[#2166b0] focus:outline-none transition-colors"
                 />
 
                 <input
@@ -131,7 +135,8 @@ const Footer = ({
                   placeholder="ASUNTO"
                   value={formData.asunto}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 focus:border-[#2166b0] focus:outline-none transition-colors text-sm"
+                  className="w-full px-4 py-3 border border-gray-300 bg-white text-sm
+             placeholder:text-gray-400 focus:border-[#2166b0] focus:outline-none transition-colors"
                   required
                 />
 
@@ -141,7 +146,8 @@ const Footer = ({
                   value={formData.mensaje}
                   onChange={handleChange}
                   rows={4}
-                  className="w-full px-4 py-3 border border-gray-300 focus:border-[#2166b0] focus:outline-none transition-colors text-sm resize-none"
+                  className="w-full px-4 py-3 border border-gray-300 bg-white text-sm
+             placeholder:text-gray-400 focus:border-[#2166b0] focus:outline-none transition-colors"
                   required
                 />
 
