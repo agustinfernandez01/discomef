@@ -267,7 +267,7 @@ const BebidasLanding: React.FC = () => {
       </section>
 
       {/* Productos Carousel */}
-      <section id="marcas" className="py-20 px-6 lg:px-12 bg-gray-50">
+      <section id="productos" className="py-20 px-6 lg:px-12 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <div className="mb-16 text-center">
             <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-4">Productos</h2>

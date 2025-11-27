@@ -80,8 +80,8 @@ const Navbar = ({
               </Link>
 
               <a
-                href="/productos"
-                onClick={(e) => smoothScroll(e, 'marcas')}
+                href="/#productos"
+                onClick={(e) => smoothScroll(e, 'productos')}
                 className={`text-sm font-medium transition-all duration-300 hover:text-[#2166b0] ${
                   activeSection === 'productos'
                     ? 'text-[#2166b0]'
