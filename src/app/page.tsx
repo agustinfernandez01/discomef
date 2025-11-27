@@ -247,14 +247,14 @@ const BebidasLanding: React.FC = () => {
                 </p>
               </div>
 
-              <div className="bg-gray-50 p-8 border border-gray-200 hover:border-[#76c043] transition-all duration-300 hover:shadow-lg rounded-lg">
+             <div className="bg-gray-50 p-8 border border-gray-200 hover:border-[#76c043] transition-all duration-300 hover:shadow-lg rounded-lg">
                 <h3 className="text-2xl font-normal text-gray-900 mb-4">Inversión y Profesionalización</h3>
                 <p className="text-gray-600 leading-relaxed">
                   Año tras año hemos invertido en tecnología, recursos humanos,
                   flota de camiones y centros logísticos,
                   profesionalizando todas nuestras áreas y formando equipos cada vez mejores para cumplir nuestros objetivos y la de nuestros proveedores. <br /><br />
                 </p>
-                <span className='text-2xl font-normal text-gray-900 mb-4'>Grupo Distribuidor SERVIMAR - DISCOMEF</span><br />
+                <h3 className='text-2xl font-normal text-gray-900 mb-4'>Grupo Distribuidor SERVIMAR - DISCOMEF</h3>
                 <p className='text-gray-600 leading-relaxed'>Actualmente conformamos un grupo con presencia en Buenos Aires,
                   Tucumán y Catamarca,
                   con 3 centros de distribución que nos posicionan como uno de los principales actores de distribución de consumo masivo a nivel nacional.
