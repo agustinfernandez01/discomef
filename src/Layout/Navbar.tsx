@@ -133,13 +133,13 @@ const Navbar = ({
         {mobileMenuOpen && (
           <div className="md:hidden bg-white border-t border-gray-200 shadow-lg">
             <div className="px-6 py-4 space-y-4">
-              <a
-                href="#inicio"
+              <Link
+                href="/"
                 onClick={(e) => smoothScroll(e, 'inicio')}
                 className="block text-gray-900 hover:text-[#2166b0] text-sm font-medium"
               >
                 INICIO
-              </a>
+              </Link>
 
               {/* HISTORIA móvil */}
               <Link
@@ -156,14 +156,6 @@ const Navbar = ({
                 className="block text-gray-900 hover:text-[#2166b0] text-sm font-medium"
               >
                 PRODUCTOS
-              </a>
-
-              <a
-                href="#marcas"
-                onClick={(e) => smoothScroll(e, 'marcas')}
-                className="block text-gray-900 hover:text-[#2166b0] text-sm font-medium"
-              >
-                MARCAS
               </a>
 
               {/* CCU móvil */}
