@@ -254,7 +254,7 @@ const Footer = ({
               <img
                 src="assets/discomeflogo.png"
                 alt="DISCOMEF"
-                className="h-24 w-auto object-contain mb-4 brightness-0 invert transition-transform hover:scale-105 duration-300"
+                className="h-32 w-auto object-contain mb-4 brightness-0 invert transition-transform hover:scale-105 duration-300"
               />
             </div>
 

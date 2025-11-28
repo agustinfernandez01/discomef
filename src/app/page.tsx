@@ -287,7 +287,7 @@ const BebidasLanding: React.FC = () => {
                 <p className="text-gray-600 leading-relaxed">
                   Año tras año hemos invertido en tecnología, recursos humanos,
                   flota de camiones y centros logísticos,
-                  profesionalizando todas nuestras áreas y formando equipos cada vez mejores para cumplir nuestros objetivos, los de nuestros proveedores y clientes.
+                  profesionalizando todas nuestras áreas y formando equipos cada vez mejores para cumplir nuestros objetivos y los de nuestros proveedores y clientes.
                 </p>
               </div>
 
