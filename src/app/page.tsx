@@ -12,6 +12,7 @@ const BebidasLanding: React.FC = () => {
   const [activeSection, setActiveSection] = useState('inicio');
   const [currentSlide, setCurrentSlide] = useState(0);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  
 
 
   useEffect(() => {

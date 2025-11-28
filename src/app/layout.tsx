@@ -16,7 +16,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Discomef",
   description: "Distribucion y Comercializacion eficiente",
-  
+  icons: {
+    icon: "/icon.ico",
+  },
 };
 
 export default function RootLayout({
