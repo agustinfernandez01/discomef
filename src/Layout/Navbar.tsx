@@ -2,6 +2,7 @@
 
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation'; // 🔹 NUEVO
 
 type NavbarProps = {
   isScrolled: boolean;
@@ -21,17 +22,17 @@ const Navbar = ({
   mobileMenuOpen,
   setMobileMenuOpen,
 }: NavbarProps) => {
+  const router = useRouter(); // 🔹 NUEVO
+
   // Handler para links que pueden venir desde otra página
   const handleSectionClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
     sectionId: string
   ) => {
-    // Si ya estoy en el home, uso smoothScroll
     if (window.location.pathname === '/') {
       smoothScroll(e, sectionId); // tu función ya hace preventDefault
     }
-    // Si NO estoy en "/", no hago nada:
-    // <Link> se encarga de navegar a "/#sectionId"
+    // Si NO estoy en "/", dejo que el <Link> navegue normal a "/#sectionId"
   };
 
   return (
@@ -66,7 +67,6 @@ const Navbar = ({
                 INICIO
               </Link>
 
-              {/* HISTORIA → home + sección, con smooth si ya estás en / */}
               <Link
                 href="/#historia"
                 onClick={(e) => handleSectionClick(e, 'historia')}
@@ -91,7 +91,6 @@ const Navbar = ({
                 PRODUCTOS
               </a>
 
-              {/* CCU → home + sección, con smooth si ya estás en / */}
               <Link
                 href="/#ccu"
                 onClick={(e) => handleSectionClick(e, 'ccu')}
@@ -133,9 +132,20 @@ const Navbar = ({
         {mobileMenuOpen && (
           <div className="md:hidden bg-white border-t border-gray-200 shadow-lg">
             <div className="px-6 py-4 space-y-4">
+              {/* 🔹 INICIO MOBILE ARREGLADO */}
               <Link
-                href="/"
-                onClick={(e) => smoothScroll(e, 'inicio')}
+                href="/#inicio"
+                onClick={(e) => {
+                  // Si estoy en home, hago scroll suave
+                  if (window.location.pathname === '/') {
+                    smoothScroll(e, 'inicio');
+                  } else {
+                    // Si estoy en otra ruta (ej: /productos), navego al home con hash
+                    e.preventDefault();
+                    router.push('/#inicio');
+                  }
+                  setMobileMenuOpen(false);
+                }}
                 className="block text-gray-900 hover:text-[#2166b0] text-sm font-medium"
               >
                 INICIO
@@ -144,7 +154,10 @@ const Navbar = ({
               {/* HISTORIA móvil */}
               <Link
                 href="/#historia"
-                onClick={(e) => handleSectionClick(e, 'historia')}
+                onClick={(e) => {
+                  handleSectionClick(e, 'historia');
+                  setMobileMenuOpen(false);
+                }}
                 className="block text-gray-900 hover:text-[#2166b0] text-sm font-medium"
               >
                 HISTORIA
@@ -152,7 +165,10 @@ const Navbar = ({
 
               <a
                 href="#productos"
-                onClick={(e) => smoothScroll(e, 'productos')}
+                onClick={(e) => {
+                  smoothScroll(e, 'productos');
+                  setMobileMenuOpen(false);
+                }}
                 className="block text-gray-900 hover:text-[#2166b0] text-sm font-medium"
               >
                 PRODUCTOS
@@ -161,14 +177,20 @@ const Navbar = ({
               {/* CCU móvil */}
               <Link
                 href="/#ccu"
-                onClick={(e) => handleSectionClick(e, 'ccu')}
+                onClick={(e) => {
+                  handleSectionClick(e, 'ccu');
+                  setMobileMenuOpen(false);
+                }}
                 className="block text-gray-900 hover:text-[#2166b0] text-sm font-medium"
               >
                 CCU
               </Link>
 
               <button
-                onClick={(e) => smoothScroll(e, 'contacto')}
+                onClick={(e) => {
+                  smoothScroll(e, 'contacto');
+                  setMobileMenuOpen(false);
+                }}
                 className="w-full px-6 py-2.5 bg-[#2166b0] text-white text-sm font-medium rounded hover:bg-[#1a5490] transition-all duration-300"
               >
                 Contacto

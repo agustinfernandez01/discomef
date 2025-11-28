@@ -5,7 +5,17 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: Request) {
   try {
-    const { nombre, apellido, email, asunto, mensaje } = await req.json();
+    // ⬇️ AHORA LEEMOS FORM DATA, NO JSON
+    const form = await req.formData();
+
+    const nombre = form.get('nombre')?.toString() ?? '';
+    const apellido = form.get('apellido')?.toString() ?? '';
+    const email = form.get('email')?.toString() ?? '';
+    const asunto = form.get('asunto')?.toString() ?? '';
+    const mensaje = form.get('mensaje')?.toString() ?? '';
+
+    // Archivo opcional
+    const archivo = form.get('archivo') as File | null;
 
     // Validaciones básicas
     if (!nombre || !apellido || !email || !asunto || !mensaje) {
@@ -15,10 +25,23 @@ export async function POST(req: Request) {
       );
     }
 
+    // Adjuntos para Resend (si hay archivo)
+    const attachments: { filename: string; content: string }[] = [];
+
+    if (archivo && archivo.size > 0) {
+      const arrayBuffer = await archivo.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+
+      attachments.push({
+        filename: archivo.name || 'archivo.pdf',
+        content: buffer.toString('base64'),
+      });
+    }
+
     const { data, error: resendError } = await resend.emails.send({
-      from: `Web Discomef <${process.env.RESEND_FROM_EMAIL}>`, // ej: no-reply@discomef.com.ar
-      to: 'info@discomef.com.ar', // donde recibís los mensajes
-      replyTo: email,             // si respondés el mail, va al cliente
+      from: `Web Discomef <${process.env.RESEND_FROM_EMAIL}>`,
+      to: 'info@discomef.com.ar',
+      replyTo: email,
       subject: `Nuevo mensaje desde la web: ${asunto}`,
       text: `
 Formulario "ESCRÍBINOS"
@@ -40,6 +63,7 @@ ${mensaje}
         <p><strong>Mensaje:</strong></p>
         <p>${mensaje.replace(/\n/g, '<br />')}</p>
       `,
+      attachments: attachments.length ? attachments : undefined,
     });
 
     if (resendError) {

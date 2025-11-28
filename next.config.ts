@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export', // clave para generar HTML estático
+  output: "export",
+  images: {
+    unoptimized: true, // 🔥 Deshabilita la optimización para export
+  },
 };
 
-export default nextConfig;
+module.exports = nextConfig;

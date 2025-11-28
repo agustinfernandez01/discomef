@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Phone, Mail, MapPin, Send } from 'lucide-react';
 
 const Footer = ({
@@ -23,15 +23,23 @@ const Footer = ({
     'idle' | 'sending' | 'success' | 'error'
   >('idle');
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // 🔹 Refs para el formulario y el input file (CV)
+  const formRef = useRef<HTMLFormElement | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus('sending');
 
     try {
+      const formEl = e.currentTarget;
+
+      // Enviamos TODO como FormData (incluye el archivo si lo hay)
+      const formDataToSend = new FormData(formEl);
+
       const res = await fetch('/api/contacto', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: formDataToSend,
       });
 
       if (res.ok) {
@@ -45,6 +53,14 @@ const Footer = ({
           telefono: '',
           mensaje: '',
         });
+
+        // limpiamos también el file input si existe
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+
+        // reseteamos el form real (por si acaso)
+        formEl.reset();
       } else {
         setStatus('error');
       }
@@ -52,7 +68,6 @@ const Footer = ({
       console.error('Error al enviar formulario de contacto:', err);
       setStatus('error');
     } finally {
-      // si querés que desaparezca el mensaje después de un rato:
       setTimeout(() => setStatus('idle'), 5000);
     }
   };
@@ -64,6 +79,27 @@ const Footer = ({
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  // 🔹 Cuando el usuario hace click en "ENVIAR CV"
+  const handleEnviarCvClick = () => {
+    // si no escribió asunto, le ponemos uno por defecto
+    setFormData((prev) => ({
+      ...prev,
+      asunto: prev.asunto || 'Envío de CV',
+    }));
+
+    // abrimos el selector de archivo
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  // 🔹 Cuando selecciona el archivo, mandamos el formulario automáticamente
+  const handleFileChange = () => {
+    if (fileInputRef.current?.files?.length && formRef.current) {
+      formRef.current.requestSubmit();
+    }
   };
 
   return (
@@ -84,7 +120,11 @@ const Footer = ({
                 ESCRÍBINOS
               </h2>
 
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form
+                ref={formRef}
+                onSubmit={handleSubmit}
+                className="space-y-4"
+              >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <input
                     type="text"
@@ -92,8 +132,8 @@ const Footer = ({
                     placeholder="NOMBRE"
                     value={formData.nombre}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 bg-white text-sm
-             placeholder:text-gray-400 focus:border-[#2166b0] focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 border border-gray-300 bg-white text-sm text-gray-900
+        placeholder:text-gray-400 focus:border-[#2166b0] focus:outline-none transition-colors"
                     required
                   />
                   <input
@@ -102,8 +142,8 @@ const Footer = ({
                     placeholder="APELLIDO"
                     value={formData.apellido}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 bg-white text-sm
-             placeholder:text-gray-400 focus:border-[#2166b0] focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 border border-gray-300 bg-white text-sm text-gray-900
+        placeholder:text-gray-400 focus:border-[#2166b0] focus:outline-none transition-colors"
                     required
                   />
                 </div>
@@ -114,8 +154,8 @@ const Footer = ({
                   placeholder="EMAIL"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 bg-white text-sm
-             placeholder:text-gray-400 focus:border-[#2166b0] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 border border-gray-300 bg-white text-sm text-gray-900
+      placeholder:text-gray-400 focus:border-[#2166b0] focus:outline-none transition-colors"
                   required
                 />
 
@@ -125,8 +165,8 @@ const Footer = ({
                   placeholder="TELÉFONO (opcional)"
                   value={formData.telefono}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 bg-white text-sm
-             placeholder:text-gray-400 focus:border-[#2166b0] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 border border-gray-300 bg-white text-sm text-gray-900
+      placeholder:text-gray-400 focus:border-[#2166b0] focus:outline-none transition-colors"
                 />
 
                 <input
@@ -135,8 +175,8 @@ const Footer = ({
                   placeholder="ASUNTO"
                   value={formData.asunto}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 bg-white text-sm
-             placeholder:text-gray-400 focus:border-[#2166b0] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 border border-gray-300 bg-white text-sm text-gray-900
+      placeholder:text-gray-400 focus:border-[#2166b0] focus:outline-none transition-colors"
                   required
                 />
 
@@ -146,9 +186,19 @@ const Footer = ({
                   value={formData.mensaje}
                   onChange={handleChange}
                   rows={4}
-                  className="w-full px-4 py-3 border border-gray-300 bg-white text-sm
-             placeholder:text-gray-400 focus:border-[#2166b0] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 border border-gray-300 bg-white text-sm text-gray-900
+      placeholder:text-gray-400 focus:border-[#2166b0] focus:outline-none transition-colors"
                   required
+                />
+
+                {/* 🔹 Input file oculto para el CV (se dispara desde "ENVIAR CV") */}
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  name="archivo"
+                  accept="application/pdf"
+                  className="hidden"
+                  onChange={handleFileChange}
                 />
 
                 <button
@@ -182,7 +232,11 @@ const Footer = ({
                 <h3 className="text-2xl font-light mb-4">
                   ¿QUERÉS TRABAJAR CON NOSOTROS?
                 </h3>
-                <button className="bg-white text-[#2166b0] px-8 py-3 hover:bg-gray-100 transition-all duration-300 text-sm font-medium">
+                <button
+                  type="button"
+                  onClick={handleEnviarCvClick}
+                  className="bg-white text-[#2166b0] px-8 py-3 hover:bg-gray-100 transition-all duration-300 text-sm font-medium"
+                >
                   ENVIAR CV
                 </button>
               </div>

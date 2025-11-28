@@ -1,22 +1,25 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ChevronRight, ChevronLeft, Phone, Mail, MapPin, Award, TrendingUp, Users } from 'lucide-react';
 import Navbar from '../Layout/Navbar';
 import Footer from '../Layout/Footer';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const BebidasLanding: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('inicio');
   const [currentSlide, setCurrentSlide] = useState(0);
+    const videoRef = useRef<HTMLVideoElement | null>(null);
+
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
 
       const sections = ['inicio', 'historia', 'productos', 'marcas', 'ccu', 'contacto'];
-      const current = sections.find(section => {
+      const current = sections.find((section) => {
         const element = document.getElementById(section);
         if (element) {
           const rect = element.getBoundingClientRect();
@@ -26,6 +29,28 @@ const BebidasLanding: React.FC = () => {
       });
       if (current) setActiveSection(current);
     };
+
+    // 🔹 Lógica extra: intentar autoplay del video SOLO en mobile
+    const isMobile =
+      typeof window !== 'undefined' &&
+      /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    if (isMobile) {
+      const video = document.querySelector('#inicio video') as HTMLVideoElement | null;
+
+      if (video) {
+        // requisito para autoplay en mobile
+        video.muted = true;
+
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.catch((err) => {
+            console.warn('No se pudo hacer autoplay en mobile:', err);
+          });
+        }
+      }
+    }
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -145,21 +170,28 @@ const BebidasLanding: React.FC = () => {
       {/* NAVBAR */}
       <Navbar isScrolled={isScrolled} activeSection={activeSection} smoothScroll={smoothScroll} mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
 
-      {/* Hero Section */}
       <section id="inicio" className="pt-20 pb-20">
         <div className="w-full">
-          <div className="relative w-full overflow-hidden animate-fadeInUp" style={{ height: '70vh', minHeight: '500px', maxHeight: '800px' }}>
+          <div
+            className="relative w-full overflow-hidden animate-fadeInUp"
+            style={{ height: '70vh', minHeight: '500px', maxHeight: '800px' }}
+          >
             <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/30 z-10 pointer-events-none"></div>
 
             <video
+              ref={videoRef}
               className="w-full h-full object-cover"
               autoPlay
               muted
               loop
               playsInline
               preload="auto"
+              controls={false}
             >
-              <source src="assets/Video/discomefvideo.mp4" type="video/mp4" />
+              <source
+                src="assets/Video/discomefvideo.mp4"
+                type="video/mp4"
+              />
               Tu navegador no soporta el elemento de video.
             </video>
           </div>
@@ -247,7 +279,7 @@ const BebidasLanding: React.FC = () => {
                 </p>
               </div>
 
-             <div className="bg-gray-50 p-8 border border-gray-200 hover:border-[#76c043] transition-all duration-300 hover:shadow-lg rounded-lg">
+              <div className="bg-gray-50 p-8 border border-gray-200 hover:border-[#76c043] transition-all duration-300 hover:shadow-lg rounded-lg">
                 <h3 className="text-2xl font-normal text-gray-900 mb-4">Inversión y Profesionalización</h3>
                 <p className="text-gray-600 leading-relaxed">
                   Año tras año hemos invertido en tecnología, recursos humanos,
@@ -354,10 +386,11 @@ const BebidasLanding: React.FC = () => {
       </section>
 
       {/* CCU Partnership Section */}
+      {/* CCU Partnership Section */}
       <section id="ccu" className="py-20 px-6 lg:px-12 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="order-2 lg:order-1">
+            <div className="order-1 lg:order-1">
               <div className="mb-8">
                 <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-4">
                   Alianzas Estratégicas
@@ -434,26 +467,27 @@ const BebidasLanding: React.FC = () => {
               </div>
             </div>
 
-            <div className="order-1 lg:order-2 flex items-center justify-center">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-2xl">
-                <div className="relative group">
-                  <div className="absolute -inset-4 bg-gradient-to-r from-[#2166b0] to-[#76c043] opacity-20 blur-2xl group-hover:opacity-30 transition-opacity duration-300"></div>
-                  <div className="relative bg-white p-8 border border-gray-200 group-hover:border-[#2166b0] transition-all duration-300 hover:shadow-xl rounded-lg h-full flex items-center justify-center">
-                    <img
-                      src="assets/CCU.png"
-                      alt="CCU"
-                      className="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-105"
+            <div className="relative order-2 lg:order-2">
+              <div className="grid grid-cols-2 gap-4 lg:gap-6">
+                <div className="relative h-64 lg:h-64 rounded-lg overflow-hidden shadow-lg transform transition-transform duration-300 hover:scale-105 bg-white flex items-center justify-center p-8">
+                  <div className="relative w-full h-full">
+                    <Image
+                      src="/assets/ADOlogo.png"
+                      alt="ADO Partnership Logo"
+                      width={300}
+                      height={200}
+                      className="object-contain w-full h-full"
                     />
                   </div>
                 </div>
-
-                <div className="relative group">
-                  <div className="absolute -inset-4 bg-gradient-to-r from-[#76c043] to-[#2166b0] opacity-20 blur-2xl group-hover:opacity-30 transition-opacity duration-300"></div>
-                  <div className="relative bg-white p-8 border border-gray-200 group-hover:border-[#76c043] transition-all duration-300 hover:shadow-xl rounded-lg h-full flex items-center justify-center">
-                    <img
-                      src="assets/ADOlogo.png"
-                      alt="ADO"
-                      className="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                <div className="relative h-64 lg:h-64 rounded-lg overflow-hidden shadow-lg transform transition-transform duration-300 hover:scale-105 bg-white flex items-center justify-center p-8">
+                  <div className="relative w-full h-full">
+                    <Image
+                      src="/assets/CCU.png"
+                      alt="CCU Partnership Logo"
+                      width={300}
+                      height={200}
+                      className="object-contain w-full h-full"
                     />
                   </div>
                 </div>
@@ -462,6 +496,7 @@ const BebidasLanding: React.FC = () => {
           </div>
         </div>
       </section>
+
       {/* Footer */}
       <Footer smoothScroll={smoothScroll} />
     </div>
