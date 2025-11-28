@@ -11,7 +11,7 @@ const BebidasLanding: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('inicio');
   const [currentSlide, setCurrentSlide] = useState(0);
-    const videoRef = useRef<HTMLVideoElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
 
   useEffect(() => {
@@ -269,6 +269,7 @@ const BebidasLanding: React.FC = () => {
             </div>
 
             <div className="space-y-6">
+              {/* Card 1 */}
               <div className="bg-gray-50 p-8 border border-gray-200 hover:border-[#2166b0] transition-all duration-300 hover:shadow-lg rounded-lg">
                 <h3 className="text-2xl font-normal text-gray-900 mb-4">Empresa Familiar</h3>
                 <p className="text-gray-600 leading-relaxed mb-4">
@@ -279,19 +280,24 @@ const BebidasLanding: React.FC = () => {
                 </p>
               </div>
 
+              {/* Card 2 */}
               <div className="bg-gray-50 p-8 border border-gray-200 hover:border-[#76c043] transition-all duration-300 hover:shadow-lg rounded-lg">
                 <h3 className="text-2xl font-normal text-gray-900 mb-4">Inversión y Profesionalización</h3>
                 <p className="text-gray-600 leading-relaxed">
                   Año tras año hemos invertido en tecnología, recursos humanos,
                   flota de camiones y centros logísticos,
-                  profesionalizando todas nuestras áreas y formando equipos cada vez mejores para cumplir nuestros objetivos y la de nuestros proveedores. <br /><br />
+                  profesionalizando todas nuestras áreas y formando equipos cada vez mejores para cumplir nuestros objetivos, los de nuestros proveedores y clientes.
                 </p>
-                <h3 className='text-2xl font-normal text-gray-900 mb-4'>Grupo Distribuidor SERVIMAR - DISCOMEF</h3>
-                <p className='text-gray-600 leading-relaxed'>Actualmente conformamos un grupo con presencia en Buenos Aires,
+              </div>
+
+              {/* Card 3 (separado) */}
+              <div className="bg-gray-50 p-8 border border-gray-200 hover:border-[#76c043] transition-all duration-300 hover:shadow-lg rounded-lg">
+                <h3 className="text-2xl font-normal text-gray-900 mb-4">Grupo SERVIMAR - DISCOMEF</h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Actualmente conformamos un grupo con presencia en Buenos Aires,
                   Tucumán y Catamarca,
                   con 3 centros de distribución que nos posicionan como uno de los principales actores de distribución de consumo masivo a nivel nacional.
                 </p>
-
               </div>
             </div>
           </div>
@@ -386,7 +392,6 @@ const BebidasLanding: React.FC = () => {
       </section>
 
       {/* CCU Partnership Section */}
-      {/* CCU Partnership Section */}
       <section id="ccu" className="py-20 px-6 lg:px-12 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -472,8 +477,8 @@ const BebidasLanding: React.FC = () => {
                 <div className="relative h-64 lg:h-64 rounded-lg overflow-hidden shadow-lg transform transition-transform duration-300 hover:scale-105 bg-white flex items-center justify-center p-8">
                   <div className="relative w-full h-full">
                     <Image
-                      src="/assets/ADOlogo.png"
-                      alt="ADO Partnership Logo"
+                      src="/assets/CCU.png"
+                      alt="CCU Partnership Logo"
                       width={300}
                       height={200}
                       className="object-contain w-full h-full"
@@ -483,8 +488,8 @@ const BebidasLanding: React.FC = () => {
                 <div className="relative h-64 lg:h-64 rounded-lg overflow-hidden shadow-lg transform transition-transform duration-300 hover:scale-105 bg-white flex items-center justify-center p-8">
                   <div className="relative w-full h-full">
                     <Image
-                      src="/assets/CCU.png"
-                      alt="CCU Partnership Logo"
+                      src="/assets/ADOlogo.png"
+                      alt="ADO Partnership Logo"
                       width={300}
                       height={200}
                       className="object-contain w-full h-full"
