@@ -40,7 +40,7 @@ export async function POST(req: Request) {
 
     const { data, error: resendError } = await resend.emails.send({
       from: `Web Discomef <${process.env.RESEND_FROM_EMAIL}>`,
-      to: 'info@discomef.com.ar',
+      to: 'infoclientes@discomef.com.ar',
       replyTo: email,
       subject: `Nuevo mensaje desde la web: ${asunto}`,
       text: `

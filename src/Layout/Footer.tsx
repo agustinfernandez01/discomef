@@ -23,7 +23,6 @@ const Footer = ({
     'idle' | 'sending' | 'success' | 'error'
   >('idle');
 
-  // 🔹 Refs para el formulario y el input file (CV)
   const formRef = useRef<HTMLFormElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -33,8 +32,6 @@ const Footer = ({
 
     try {
       const formEl = e.currentTarget;
-
-      // Enviamos TODO como FormData (incluye el archivo si lo hay)
       const formDataToSend = new FormData(formEl);
 
       const res = await fetch('/api/contacto', {
@@ -44,7 +41,6 @@ const Footer = ({
 
       if (res.ok) {
         setStatus('success');
-        // reset form
         setFormData({
           nombre: '',
           apellido: '',
@@ -54,12 +50,10 @@ const Footer = ({
           mensaje: '',
         });
 
-        // limpiamos también el file input si existe
         if (fileInputRef.current) {
           fileInputRef.current.value = '';
         }
 
-        // reseteamos el form real (por si acaso)
         formEl.reset();
       } else {
         setStatus('error');
@@ -81,21 +75,17 @@ const Footer = ({
     });
   };
 
-  // 🔹 Cuando el usuario hace click en "ENVIAR CV"
   const handleEnviarCvClick = () => {
-    // si no escribió asunto, le ponemos uno por defecto
     setFormData((prev) => ({
       ...prev,
       asunto: prev.asunto || 'Envío de CV',
     }));
 
-    // abrimos el selector de archivo
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
 
-  // 🔹 Cuando selecciona el archivo, mandamos el formulario automáticamente
   const handleFileChange = () => {
     if (fileInputRef.current?.files?.length && formRef.current) {
       formRef.current.requestSubmit();
@@ -104,27 +94,22 @@ const Footer = ({
 
   return (
     <footer id="contacto" className="relative">
-      {/* Sección de Formulario con Imagen de Fondo */}
       <div
         className="relative bg-cover bg-center"
         style={{ backgroundImage: "url('assets/Contacto/camion.png')" }}
       >
-        {/* Overlay oscuro para legibilidad */}
         <div className="absolute inset-0 bg-black/60"></div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            {/* Formulario de Contacto */}
+            
+            {/* FORMULARIO */}
             <div className="bg-white/95 backdrop-blur-sm p-8 rounded-lg shadow-2xl">
               <h2 className="text-3xl font-light text-gray-900 mb-6">
-                ESCRÍBINOS
+                ESCRÍBENOS
               </h2>
 
-              <form
-                ref={formRef}
-                onSubmit={handleSubmit}
-                className="space-y-4"
-              >
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <input
                     type="text"
@@ -132,8 +117,7 @@ const Footer = ({
                     placeholder="NOMBRE"
                     value={formData.nombre}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 bg-white text-sm text-gray-900
-        placeholder:text-gray-400 focus:border-[#2166b0] focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 border border-gray-300 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-[#2166b0] focus:outline-none transition-colors"
                     required
                   />
                   <input
@@ -142,8 +126,7 @@ const Footer = ({
                     placeholder="APELLIDO"
                     value={formData.apellido}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 bg-white text-sm text-gray-900
-        placeholder:text-gray-400 focus:border-[#2166b0] focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 border border-gray-300 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-[#2166b0] focus:outline-none transition-colors"
                     required
                   />
                 </div>
@@ -154,8 +137,7 @@ const Footer = ({
                   placeholder="EMAIL"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 bg-white text-sm text-gray-900
-      placeholder:text-gray-400 focus:border-[#2166b0] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 border border-gray-300 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-[#2166b0] focus:outline-none transition-colors"
                   required
                 />
 
@@ -165,8 +147,7 @@ const Footer = ({
                   placeholder="TELÉFONO (opcional)"
                   value={formData.telefono}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 bg-white text-sm text-gray-900
-      placeholder:text-gray-400 focus:border-[#2166b0] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 border border-gray-300 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-[#2166b0] focus:outline-none transition-colors"
                 />
 
                 <input
@@ -175,8 +156,7 @@ const Footer = ({
                   placeholder="ASUNTO"
                   value={formData.asunto}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 bg-white text-sm text-gray-900
-      placeholder:text-gray-400 focus:border-[#2166b0] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 border border-gray-300 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-[#2166b0] focus:outline-none transition-colors"
                   required
                 />
 
@@ -186,12 +166,10 @@ const Footer = ({
                   value={formData.mensaje}
                   onChange={handleChange}
                   rows={4}
-                  className="w-full px-4 py-3 border border-gray-300 bg-white text-sm text-gray-900
-      placeholder:text-gray-400 focus:border-[#2166b0] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 border border-gray-300 bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:border-[#2166b0] focus:outline-none transition-colors"
                   required
                 />
 
-                {/* 🔹 Input file oculto para el CV (se dispara desde "ENVIAR CV") */}
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -207,10 +185,7 @@ const Footer = ({
                   className="w-full bg-[#2166b0] text-white py-3 px-6 hover:bg-[#1a5490] disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-300 text-sm font-medium flex items-center justify-center gap-2 group"
                 >
                   {status === 'sending' ? 'ENVIANDO...' : 'ENVIAR'}
-                  <Send
-                    size={18}
-                    className="transition-transform group-hover:translate-x-1"
-                  />
+                  <Send size={18} className="transition-transform group-hover:translate-x-1" />
                 </button>
 
                 {status === 'success' && (
@@ -226,7 +201,7 @@ const Footer = ({
               </form>
             </div>
 
-            {/* Sección Derecha - CTAs */}
+            {/* ENVIAR CV */}
             <div className="space-y-8 text-white">
               <div className="bg-white/10 backdrop-blur-sm p-8 rounded-lg border border-white/20 hover:bg-white/20 transition-all duration-300">
                 <h3 className="text-2xl font-light mb-4">
@@ -241,15 +216,17 @@ const Footer = ({
                 </button>
               </div>
             </div>
+
           </div>
         </div>
       </div>
 
-      {/* Footer Información */}
+      {/* FOOTER INFO */}
       <div className="bg-[#2166b0] text-white py-12 px-6 lg:px-12">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-            {/* Logo */}
+
+            {/* LOGO */}
             <div>
               <img
                 src="assets/discomeflogo.png"
@@ -258,48 +235,77 @@ const Footer = ({
               />
             </div>
 
-            {/* Navegación */}
+            {/* NAVEGACIÓN */}
             <div>
               <h5 className="font-medium text-white mb-4 text-sm">
                 NAVEGACIÓN
               </h5>
               <ul className="space-y-2 text-sm text-white/80">
+
                 <li>
                   <button
-                    onClick={(e) => smoothScroll(e, 'inicio')}
+                    onClick={(e) => {
+                      if (window.location.pathname === "/") {
+                        smoothScroll(e, "inicio");
+                      } else {
+                        window.location.href = "/#inicio";
+                      }
+                    }}
                     className="hover:text-white transition-all hover:translate-x-1 inline-block"
                   >
                     Inicio
                   </button>
                 </li>
+
                 <li>
                   <button
-                    onClick={(e) => smoothScroll(e, 'historia')}
+                    onClick={(e) => {
+                      if (window.location.pathname === "/") {
+                        smoothScroll(e, "historia");
+                      } else {
+                        window.location.href = "/#historia";
+                      }
+                    }}
                     className="hover:text-white transition-all hover:translate-x-1 inline-block"
                   >
                     Historia
                   </button>
                 </li>
+
                 <li>
                   <button
-                    onClick={(e) => smoothScroll(e, 'productos')}
+                    onClick={(e) => {
+                      if (window.location.pathname === "/") {
+                        smoothScroll(e, "productos");
+                      } else {
+                        window.location.href = "/#productos";
+                      }
+                    }}
                     className="hover:text-white transition-all hover:translate-x-1 inline-block"
                   >
                     Productos
                   </button>
                 </li>
+
                 <li>
                   <button
-                    onClick={(e) => smoothScroll(e, 'ccu')}
+                    onClick={(e) => {
+                      if (window.location.pathname === "/") {
+                        smoothScroll(e, "ccu");
+                      } else {
+                        window.location.href = "/#ccu";
+                      }
+                    }}
                     className="hover:text-white transition-all hover:translate-x-1 inline-block"
                   >
                     CCU
                   </button>
                 </li>
+
               </ul>
             </div>
 
-            {/* Contacto */}
+            {/* CONTACTO */}
             <div>
               <h5 className="font-medium text-white mb-4 text-sm">
                 CONTACTO
@@ -322,13 +328,12 @@ const Footer = ({
               </ul>
             </div>
 
-            {/* Redes Sociales */}
+            {/* REDES */}
             <div>
               <h5 className="font-medium text-white mb-4 text-sm">
                 SÍGUENOS
               </h5>
               <div className="flex gap-4">
-                {/* Instagram */}
                 <a
                   href="https://www.instagram.com/discomef/"
                   target="_blank"
@@ -344,12 +349,13 @@ const Footer = ({
                 </a>
               </div>
             </div>
+
           </div>
 
-          {/* Copyright */}
           <div className="border-t border-white/20 pt-8 text-center text-sm text-white/80">
             <p>&copy; DISCOMEF. Todos los derechos reservados.</p>
           </div>
+
         </div>
       </div>
     </footer>
