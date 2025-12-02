@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   title: "Discomef",
   description: "Distribucion y Comercializacion eficiente",
   icons: {
-    icon: "/icon.ico",
+    icon: "/assets/icon.ico",
   },
 };
 
@@ -28,6 +28,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "Discomef",
+              "url": "https://discomef.com.ar",
+              "logo": "https://discomef.com.ar/assets/icon.ico"
+            }),
+          }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
