@@ -2,7 +2,7 @@
 
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation'; // 🔹 NUEVO
+import { useRouter } from 'next/navigation';
 
 type NavbarProps = {
   isScrolled: boolean;
@@ -22,14 +22,14 @@ const Navbar = ({
   mobileMenuOpen,
   setMobileMenuOpen,
 }: NavbarProps) => {
-  const router = useRouter(); // 🔹 NUEVO
+  const router = useRouter();
 
   // Handler para links que pueden venir desde otra página
   const handleSectionClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
     sectionId: string
   ) => {
-    if (window.location.pathname === '/') {
+    if (typeof window !== 'undefined' && window.location.pathname === '/') {
       smoothScroll(e, sectionId); // tu función ya hace preventDefault
     }
     // Si NO estoy en "/", dejo que el <Link> navegue normal a "/#sectionId"
@@ -39,8 +39,9 @@ const Navbar = ({
     <>
       {/* Navigation */}
       <nav
-        className={`fixed w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-white shadow-md' : 'bg-white'
-          }`}
+        className={`fixed w-full z-50 transition-all duration-500 ${
+          isScrolled ? 'bg-white shadow-md' : 'bg-white'
+        }`}
       >
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="flex justify-between items-center h-20">
@@ -55,12 +56,24 @@ const Navbar = ({
 
             {/* Menu Desktop - Centrado */}
             <div className="hidden md:flex items-center space-x-8 absolute left-1/2 transform -translate-x-1/2">
+              {/* INICIO DESKTOP */}
               <Link
                 href="/"
-                className={`text-sm font-medium transition-all duration-300 hover:text-[#2166b0] ${activeSection === 'inicio'
+                onClick={(e) => {
+                  if (
+                    typeof window !== 'undefined' &&
+                    window.location.pathname === '/'
+                  ) {
+                    e.preventDefault(); // evita navegar a "/" de nuevo
+                    window.scrollTo({ top: 0, behavior: 'smooth' }); // scroll arriba
+                  }
+                  // si NO estoy en "/", deja que Link navegue normal a "/"
+                }}
+                className={`text-sm font-medium transition-all duration-300 hover:text-[#2166b0] ${
+                  activeSection === 'inicio'
                     ? 'text-[#2166b0]'
                     : 'text-gray-900'
-                  }`}
+                }`}
               >
                 INICIO
               </Link>
@@ -68,10 +81,11 @@ const Navbar = ({
               <Link
                 href="/#historia"
                 onClick={(e) => handleSectionClick(e, 'historia')}
-                className={`text-sm font-medium transition-all duration-300 hover:text-[#2166b0] ${activeSection === 'historia'
+                className={`text-sm font-medium transition-all duration-300 hover:text-[#2166b0] ${
+                  activeSection === 'historia'
                     ? 'text-[#2166b0]'
                     : 'text-gray-900'
-                  }`}
+                }`}
               >
                 HISTORIA
               </Link>
@@ -79,10 +93,11 @@ const Navbar = ({
               <a
                 href="/#productos"
                 onClick={(e) => smoothScroll(e, 'productos')}
-                className={`text-sm font-medium transition-all duration-300 hover:text-[#2166b0] ${activeSection === 'productos'
+                className={`text-sm font-medium transition-all duration-300 hover:text-[#2166b0] ${
+                  activeSection === 'productos'
                     ? 'text-[#2166b0]'
                     : 'text-gray-900'
-                  }`}
+                }`}
               >
                 PRODUCTOS
               </a>
@@ -90,10 +105,9 @@ const Navbar = ({
               <Link
                 href="/#ccu"
                 onClick={(e) => handleSectionClick(e, 'ccu')}
-                className={`text-sm font-medium transition-all duration-300 hover:text-[#2166b0] ${activeSection === 'ccu'
-                    ? 'text-[#2166b0]'
-                    : 'text-gray-900'
-                  }`}
+                className={`text-sm font-medium transition-all duration-300 hover:text-[#2166b0] ${
+                  activeSection === 'ccu' ? 'text-[#2166b0]' : 'text-gray-900'
+                }`}
               >
                 CCU
               </Link>
@@ -127,27 +141,27 @@ const Navbar = ({
         {mobileMenuOpen && (
           <div className="md:hidden bg-white border-t border-gray-200 shadow-lg">
             <div className="px-6 py-4 space-y-4">
-              {/* INICIO MOBILE */}
+              {/* INICIO MOBILE (scroll arriba en "/" - si no, ir a "/") */}
               <Link
-                href="/#inicio"
+                href="/"
                 onClick={(e) => {
                   const pathname =
-                    typeof window !== 'undefined' ? window.location.pathname : '/';
+                    typeof window !== 'undefined'
+                      ? window.location.pathname
+                      : '/';
 
                   if (pathname === '/') {
-                    // Ya estoy en el home → scroll suave a la sección
-                    smoothScroll(e, 'inicio');
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                   } else if (
                     pathname === '/productos' ||
                     pathname === '/conocermas'
                   ) {
-                    // Estoy en /productos o /conocermas → ir al home y a #inicio
                     e.preventDefault();
-                    router.push('/#inicio');
+                    router.push('/');
                   } else {
-                    // Cualquier otra ruta → igual, ir a home #inicio
                     e.preventDefault();
-                    router.push('/#inicio');
+                    router.push('/');
                   }
 
                   setMobileMenuOpen(false);
@@ -162,7 +176,9 @@ const Navbar = ({
                 href="/#historia"
                 onClick={(e) => {
                   const pathname =
-                    typeof window !== 'undefined' ? window.location.pathname : '/';
+                    typeof window !== 'undefined'
+                      ? window.location.pathname
+                      : '/';
 
                   if (pathname === '/') {
                     smoothScroll(e, 'historia');
@@ -182,7 +198,9 @@ const Navbar = ({
                 href="#productos"
                 onClick={(e) => {
                   const pathname =
-                    typeof window !== 'undefined' ? window.location.pathname : '/';
+                    typeof window !== 'undefined'
+                      ? window.location.pathname
+                      : '/';
 
                   if (pathname === '/') {
                     smoothScroll(e, 'productos');
@@ -203,7 +221,9 @@ const Navbar = ({
                 href="/#ccu"
                 onClick={(e) => {
                   const pathname =
-                    typeof window !== 'undefined' ? window.location.pathname : '/';
+                    typeof window !== 'undefined'
+                      ? window.location.pathname
+                      : '/';
 
                   if (pathname === '/') {
                     smoothScroll(e, 'ccu');
@@ -222,7 +242,9 @@ const Navbar = ({
               <button
                 onClick={(e) => {
                   const pathname =
-                    typeof window !== 'undefined' ? window.location.pathname : '/';
+                    typeof window !== 'undefined'
+                      ? window.location.pathname
+                      : '/';
 
                   if (pathname === '/') {
                     smoothScroll(e, 'contacto');

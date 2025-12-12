@@ -316,7 +316,7 @@ const Footer = ({
                     size={16}
                     className="text-[#76c043] transition-transform group-hover:scale-110"
                   />
-                  +54 381 123-4567
+                  +54 381-250-1932
                 </li>
                 <li className="flex items-center gap-2 hover:text-white transition-colors group">
                   <Mail
