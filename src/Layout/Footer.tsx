@@ -190,7 +190,7 @@ const Footer = ({
 
                 {status === 'success' && (
                   <p className="text-xs text-green-600 mt-2">
-                    ¡Tu mensaje fue enviado correctamente!
+                    Tu mensaje fue enviado correctamente!
                   </p>
                 )}
                 {status === 'error' && (
